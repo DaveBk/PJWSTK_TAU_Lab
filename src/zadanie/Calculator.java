@@ -1,12 +1,12 @@
 package zadanie;
 
-public class calculator {
+public class Calculator {
 
-	public float calculateBMI(int height, int weight, int age) {
+	public float calculateBMI(float height, float weight, float age) {
 		
-        String heightStr = Integer.toString(height);
-        String weightStr = Integer.toString(weight);
-        String ageStr = Integer.toString(age);
+        String heightStr = String.valueOf(height);
+        String weightStr = String.valueOf(weight);
+        String ageStr = String.valueOf(age);
         float result = 0;
         
         if (heightStr != null && !"".equals(heightStr)
