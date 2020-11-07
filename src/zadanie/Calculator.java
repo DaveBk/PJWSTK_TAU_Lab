@@ -2,7 +2,7 @@ package zadanie;
 
 public class Calculator {
 
-	public float calculateBMI(float height, float weight, float age) {
+	public float CalculateBMI(float height, float weight, float age) {
 		
         String heightStr = String.valueOf(height);
         String weightStr = String.valueOf(weight);
@@ -23,7 +23,7 @@ public class Calculator {
         return result;
     }
 
-    private float calculateBHC(String heightStr, String weightStr, String ageStr, String sex) {
+	public float CalculateBHC(String heightStr, String weightStr, String ageStr, String sex) {
         
     	float heightValue = Float.parseFloat(heightStr);
         float weightValue = Float.parseFloat(weightStr);
@@ -40,5 +40,29 @@ public class Calculator {
         return result;
     }
 	
-	
+	public String DisplayBMI(float bmi) {
+
+		String bmiInfo;
+		
+        if (Float.compare(bmi, 15f) <= 0) {
+        	bmiInfo = "wyglodzenie";
+        } else if (Float.compare(bmi, 15f) > 0 && Float.compare(bmi, 16f) <= 0) {
+        	bmiInfo = "wychudzenie";
+        } else if (Float.compare(bmi, 16f) > 0 && Float.compare(bmi, 18.5f) <= 0) {
+        	bmiInfo = "niedowaga";
+        } else if (Float.compare(bmi, 18.5f) > 0 && Float.compare(bmi, 25f) <= 0) {
+        	bmiInfo = "wartosc_prawidlowa";
+        } else if (Float.compare(bmi, 25f) > 0 && Float.compare(bmi, 30f) <= 0) {
+        	bmiInfo = "nadwaga";
+        } else if (Float.compare(bmi, 30f) > 0 && Float.compare(bmi, 35f) <= 0) {
+        	bmiInfo = "I_stopien_otylosci";
+        } else if (Float.compare(bmi, 35f) > 0 && Float.compare(bmi, 40f) <= 0) {
+        	bmiInfo = "II_stopien_otylosci";
+        } else {
+        	bmiInfo = "oty³osc_skrajna";
+        }
+
+        return bmiInfo;
+    }
+    
 }
