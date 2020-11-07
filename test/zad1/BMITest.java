@@ -26,5 +26,11 @@ public class BMITest {
 		assertEquals(24.151672f, result, 0);
 		System.out.println(result);
     }
-
+	
+	@Test
+	public void NotNull() {
+		float result = calculateBMI.calculateBMI(182.0f, 80.0f, 20.0f);
+		assertNotNull("Result ", result);
+		
+	}
 }

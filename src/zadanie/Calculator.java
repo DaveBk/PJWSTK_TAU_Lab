@@ -9,8 +9,10 @@ public class Calculator {
         String ageStr = String.valueOf(age);
         float result = 0;
         
-        if (heightStr != null && !"".equals(heightStr)
-                && weightStr != null && !"".equals(weightStr)) {
+        if (heightStr == null || "".equals(heightStr)
+                || weightStr == null || "".equals(weightStr)) 
+        	throw new IllegalArgumentException("Wrong data");
+        else{
 
             float heightValue = Float.parseFloat(heightStr) / 100;
             float weightValue = Float.parseFloat(weightStr);
