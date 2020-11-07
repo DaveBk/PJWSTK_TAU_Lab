@@ -31,7 +31,7 @@ public class BMITest {
     }
 	
 	@Test
-	public void NotNull() {
+	public void DataIsNotNull() {
 		float result = calculateBMI.CalculateBMI(182.0f, 80.0f, 20.0f);
 		assertNotNull("Result ", result);
 	}
