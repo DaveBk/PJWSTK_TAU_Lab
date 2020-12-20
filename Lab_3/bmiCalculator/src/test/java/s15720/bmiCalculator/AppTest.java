@@ -125,7 +125,7 @@ public class AppTest
     	HealthResult result = new HealthResult(99, "BMI", 29.45f);
     	result.setDone(true);
     	HealthResult resultToUpdate = healthResultsListService.getResultById(1);
-    	result.setHealthResultsOwner(new HealthResultsOwner((long) 1,"Adam","Adamowicz",true));
+    	result.setHealthResultsOwner(new HealthResultsOwner((long) 1,"Adam","Adamowicz", "asd@wp.pl", true));
     	healthResultsListService.updateHealthResult(1, result);
 
         Assert.assertEquals(resultToUpdate.getResultName(), result.getResultName());
@@ -137,9 +137,37 @@ public class AppTest
 
     	HealthResult result = new HealthResult(99, "BHC", 1200.45f);
     	result.setDone(true);
-    	result.setHealthResultsOwner(new HealthResultsOwner((long) 1,"Adam","Adamowicz",true));
+    	result.setHealthResultsOwner(new HealthResultsOwner((long) 1,"Adam","Adamowicz", "qwerty@wp.pl" ,true));
     	healthResultsListService.updateHealthResult(98, result);
 
+    }
+    
+    @Test(expected = WrongInputParametersException.class)
+    public void validateResultNameInput_blankResult_case() {
+    	
+        healthResultsListService.validateResultNameInput("   ");
+        
+    }
+    
+    @Test(expected = WrongInputParametersException.class)
+    public void validateResultInput_result_0_case() {
+    	
+        healthResultsListService.validateResultInput(0f);
+        
+    }
+    
+    @Test(expected = WrongInputParametersException.class)
+    public void validateEmailInput_wrongEmail_case() {
+    	
+        healthResultsListService.validateEmailInput("zly_email");
+        
+    }
+    
+    @Test
+    public void validateEmailInput_correct_case() {
+    	
+        healthResultsListService.validateEmailInput("asd@wp.pl");
+        
     }
     
 }

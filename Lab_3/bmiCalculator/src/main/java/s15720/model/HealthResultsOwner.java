@@ -5,15 +5,17 @@ public class HealthResultsOwner {
     private Long id;
     private String firstName;
     private String lastName;
+    private String email;
     private boolean isActive;
 	
     public HealthResultsOwner() {
     }
 	
-    public HealthResultsOwner(Long id, String firstName, String lastName, boolean isActive) {
+    public HealthResultsOwner(Long id, String firstName, String lastName, String email, boolean isActive) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.isActive = isActive;
     }
     
@@ -41,6 +43,14 @@ public class HealthResultsOwner {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     public boolean isActive() {
         return isActive;
     }
