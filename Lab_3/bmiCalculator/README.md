@@ -1,6 +1,6 @@
-#Lab 3 
+## Lab 3 
 
-Ukończone zadania
+### Ukończone zadania
 - [x] Instalacja Maven'a 
 - [x] Projekt z laboratoriów 1 dostosować do środowiska Mavenowego
 - [x] Dopisanie nowej funkcjonalności w projekcie
