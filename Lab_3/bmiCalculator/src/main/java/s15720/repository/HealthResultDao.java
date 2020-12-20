@@ -6,14 +6,14 @@ import java.util.Optional;
 
 import s15720.model.HealthResult;
 
-public class HealthResultListRepo {
-	 private static HealthResultListRepo ourInstance = new HealthResultListRepo();
+public class HealthResultDao {
+	 private static HealthResultDao ourInstance = new HealthResultDao();
 
-	 public static HealthResultListRepo getInstance() {
+	 public static HealthResultDao getInstance() {
 	        return ourInstance;
 	    }
 
-	    private HealthResultListRepo() {
+	    private HealthResultDao() {
 	    }
 
 	    private List<HealthResult> healthResultsLists = new ArrayList<>();
