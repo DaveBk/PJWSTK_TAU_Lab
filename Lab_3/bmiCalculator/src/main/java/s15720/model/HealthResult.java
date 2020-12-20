@@ -4,15 +4,17 @@ public class HealthResult {
 	
     private Long id;
     private String resultName;
+    private float result;
     private boolean isDone;
     private HealthResultsOwner healthresultOwner;
 
     public HealthResult() {
     }
     
-    public HealthResult(long id, String taskName) {
+    public HealthResult(long id, String resultName, float result) {
         this.id = id;
-        this.resultName = taskName;
+        this.resultName = resultName;
+        this.result = result;
         this.isDone = false;
         this.healthresultOwner = new HealthResultsOwner();
 
@@ -32,6 +34,14 @@ public class HealthResult {
 
     public void setResultName(String resultName) {
         this.resultName = resultName;
+    }
+    
+    public float getResult() {
+        return result;
+    }
+
+    public void setResult(float result) {
+        this.result = result;
     }
 
     public boolean isDone() {
