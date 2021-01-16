@@ -1,5 +1,6 @@
 package s15720.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -37,6 +38,9 @@ public class HealthResultsListService {
             Optional<HealthResult> optionalHealthResult = HealthResultDao.getInstance().getObjectById(id);
             if (optionalHealthResult.isPresent()) {
             	HealthResult healthResult = optionalHealthResult.get();
+                if (healthResult.isSaveTimes()) {
+                	healthResult.setLastReadTime(LocalDateTime.now());
+                }
                 return healthResult;
             }
         }
@@ -64,6 +68,11 @@ public class HealthResultsListService {
         	resultToUpdate.setDone(result.isDone());
         	resultToUpdate.setHealthResultsOwner(result.getHealthResultsOwner());
 
+            if (result.isSaveTimes()) {
+            	resultToUpdate.setUpdatedTime(LocalDateTime.now());
+            	resultToUpdate.setLastReadTime(result.getLastReadTime());
+            }
+        	
             HealthResultDao.getInstance().collectionAccess().remove(getResultById(id));
             HealthResultDao.getInstance().collectionAccess().add(resultToUpdate);
 

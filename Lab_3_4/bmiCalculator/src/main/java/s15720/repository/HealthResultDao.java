@@ -1,5 +1,6 @@
 package s15720.repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,9 @@ public class HealthResultDao {
 
 	    public List<HealthResult> collectionAccess() {
 	    	healthResultsLists
-	                .stream();
+	                .stream()
+            		.filter(HealthResult::isSaveTimes)
+            		.forEach(u -> u.setLastReadTime(LocalDateTime.now()));
 	        return healthResultsLists;
 	    }
 
