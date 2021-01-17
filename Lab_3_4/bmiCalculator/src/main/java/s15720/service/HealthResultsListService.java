@@ -1,5 +1,6 @@
 package s15720.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -15,6 +16,7 @@ import static org.apache.commons.lang3.StringUtils.upperCase;
 
 import s15720.bmiCalculator.WrongInputParametersException;
 import s15720.model.HealthResult;
+import s15720.model.HealthResultTimeDTO;
 import s15720.repository.HealthResultDao;
 
 public class HealthResultsListService {
@@ -37,6 +39,9 @@ public class HealthResultsListService {
             Optional<HealthResult> optionalHealthResult = HealthResultDao.getInstance().getObjectById(id);
             if (optionalHealthResult.isPresent()) {
             	HealthResult healthResult = optionalHealthResult.get();
+                if (healthResult.isSaveTimes()) {
+                	healthResult.setLastReadTime(LocalDateTime.now());
+                }
                 return healthResult;
             }
         }
@@ -64,6 +69,11 @@ public class HealthResultsListService {
         	resultToUpdate.setDone(result.isDone());
         	resultToUpdate.setHealthResultsOwner(result.getHealthResultsOwner());
 
+            if (result.isSaveTimes()) {
+            	resultToUpdate.setUpdatedTime(LocalDateTime.now());
+            	resultToUpdate.setLastReadTime(result.getLastReadTime());
+            }
+        	
             HealthResultDao.getInstance().collectionAccess().remove(getResultById(id));
             HealthResultDao.getInstance().collectionAccess().add(resultToUpdate);
 
@@ -71,6 +81,10 @@ public class HealthResultsListService {
         }
 
         throw new NoSuchElementException("Element with pointed id doesnt exist");
+    }
+    
+    public HealthResultTimeDTO getTimesById(long id) {
+        return new HealthResultTimeDTO().create(getResultById(id));
     }
     
     public void validateResultNameInput(String resultName) {

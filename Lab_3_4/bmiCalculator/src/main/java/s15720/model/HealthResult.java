@@ -1,5 +1,7 @@
 package s15720.model;
 
+import java.time.LocalDateTime;
+
 public class HealthResult {
 	
     private Long id;
@@ -7,7 +9,11 @@ public class HealthResult {
     private float result;
     private boolean isDone;
     private HealthResultsOwner healthresultOwner;
-
+    private LocalDateTime creationTime;
+    private LocalDateTime updatedTime;
+    private LocalDateTime lastReadTime;
+    private boolean saveTimes;
+    
     public HealthResult() {
     }
     
@@ -17,6 +23,9 @@ public class HealthResult {
         this.result = result;
         this.isDone = false;
         this.healthresultOwner = new HealthResultsOwner();
+        this.creationTime = LocalDateTime.now();
+        this.updatedTime = LocalDateTime.now();
+        this.saveTimes = true;
 
     }
     
@@ -59,6 +68,38 @@ public class HealthResult {
     public void setHealthResultsOwner(HealthResultsOwner healthresultOwner) {
         this.healthresultOwner = healthresultOwner;
     }
+    
+    public LocalDateTime getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public LocalDateTime getUpdatedTime() {
+        return updatedTime;
+    }
+
+    public void setUpdatedTime(LocalDateTime updatedTime) {
+        this.updatedTime = updatedTime;
+    }
+
+    public LocalDateTime getLastReadTime() {
+        return lastReadTime;
+    }
+
+    public void setLastReadTime(LocalDateTime lastReadTime) {
+        this.lastReadTime = lastReadTime;
+    }
+
+    public boolean isSaveTimes() {
+        return saveTimes;
+    }
+
+    public void setSaveTimes(boolean saveTimes) {
+        this.saveTimes = saveTimes;
+    }
 
     @Override
     public String toString() {
@@ -67,6 +108,10 @@ public class HealthResult {
                 ", resultName='" + resultName + '\'' +
                 ", isDone=" + isDone +
                 ", healthresultOwner=" + healthresultOwner +
+                ", creationTime=" + creationTime +
+                ", updatedTime=" + updatedTime +
+                ", lastReadTime=" + lastReadTime +
+                ", saveTimes=" + saveTimes +
                 '}';
     }
     
