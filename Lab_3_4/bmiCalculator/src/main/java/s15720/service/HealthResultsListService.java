@@ -16,6 +16,7 @@ import static org.apache.commons.lang3.StringUtils.upperCase;
 
 import s15720.bmiCalculator.WrongInputParametersException;
 import s15720.model.HealthResult;
+import s15720.model.HealthResultTimeDTO;
 import s15720.repository.HealthResultDao;
 
 public class HealthResultsListService {
@@ -80,6 +81,10 @@ public class HealthResultsListService {
         }
 
         throw new NoSuchElementException("Element with pointed id doesnt exist");
+    }
+    
+    public HealthResultTimeDTO getTimesById(long id) {
+        return new HealthResultTimeDTO().create(getResultById(id));
     }
     
     public void validateResultNameInput(String resultName) {

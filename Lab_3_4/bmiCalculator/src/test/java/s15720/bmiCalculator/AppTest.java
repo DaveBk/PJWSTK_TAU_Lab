@@ -1,7 +1,10 @@
 package s15720.bmiCalculator;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -10,13 +13,19 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import s15720.model.HealthResult;
+import s15720.model.HealthResultTimeDTO;
 import s15720.model.HealthResultsOwner;
 import s15720.repository.HealthResultDao;
+import s15720.service.HealthResultFactory;
 import s15720.service.HealthResultsListService;
 
-
+@RunWith(MockitoJUnitRunner.class)
 public class AppTest 
 {
 	private CalculateBmi calculateBMI;
@@ -26,6 +35,13 @@ public class AppTest
 	private HealthResultDao repository = HealthResultDao.getInstance();
     private HealthResultsListService healthResultsListService = new HealthResultsListService();
 
+    @Mock
+    private HealthResultTimeDTO healthResultTimeDTO;
+    @Mock
+    private HealthResultsListService healthResultsListServiceMock;
+    @Mock
+    private HealthResult resultMock;
+    
 	@Before
 	public void setUp() {
 		calculateBMI = new CalculateBmi();
@@ -115,8 +131,8 @@ public class AppTest
     
     @Test
     public void getAllHealthResult_correct_case() {
-        List<HealthResult> tasks = healthResultsListService.getAllHealthResults();
-        Assert.assertEquals(tasks.size(), 5);
+        List<HealthResult> result = healthResultsListService.getAllHealthResults();
+        Assert.assertEquals(result.size(), 5);
     }
     
     @Test
@@ -139,6 +155,7 @@ public class AppTest
     	result.setDone(true);
     	result.setHealthResultsOwner(new HealthResultsOwner((long) 1,"Adam","Adamowicz", "qwerty@wp.pl" ,true));
     	healthResultsListService.updateHealthResult(98, result);
+    	
 
     }
     
@@ -170,4 +187,70 @@ public class AppTest
         
     }
     
+    @Test
+    public void readDataOnGetObject_correct_case() {
+        LocalDateTime time = LocalDateTime.now();
+        when(healthResultsListServiceMock.getResultById(1)).thenReturn(resultMock);
+        when(healthResultsListServiceMock.getResultById(1).getLastReadTime()).thenReturn(time);
+
+        Assert.assertEquals(healthResultsListServiceMock.getResultById(1).getLastReadTime(), time);
+    }
+    
+    @Test
+    public void readDataOnGetObject_wrong_case() {
+        ZoneId zone2 = ZoneId.of("Brazil/East");
+
+        LocalDateTime time = LocalDateTime.now();
+        LocalDateTime timeBrazil = LocalDateTime.now(zone2);
+        
+        when(healthResultsListServiceMock.getResultById(1)).thenReturn(resultMock);
+        when(healthResultsListServiceMock.getResultById(1).getLastReadTime()).thenReturn(timeBrazil);
+
+        Assert.assertNotEquals(healthResultsListServiceMock.getResultById(1).getLastReadTime(), time);
+    }
+    
+    @Test
+    public void addedDateDuringAddToCollection_correct_case() {
+    	healthResultsListServiceMock.addHealthResultToList(HealthResultFactory.create(55, "BMR", 1235.73f));
+        LocalDateTime time = LocalDateTime.now();
+
+        when(healthResultsListServiceMock.getResultById(55)).thenReturn(resultMock);
+
+        when(healthResultsListServiceMock.getResultById(55).getLastReadTime()).thenReturn(time);
+        Assert.assertEquals(healthResultsListServiceMock.getResultById(55).getLastReadTime(), time);
+    }
+    
+    @Test
+    public void updatedDateDuringUpdateObject_correct_case() {
+        LocalDateTime time = LocalDateTime.now();
+        when(healthResultTimeDTO.getUpdatedTime()).thenReturn(time);
+
+        HealthResult result = healthResultsListService.updateHealthResult(1, healthResultsListService.getResultById(2));
+        Assert.assertEquals(healthResultTimeDTO.getUpdatedTime(), time);
+    }
+
+    @Test
+    public void updatedDateDuringUpdateObject_wrong_case() {
+        ZoneId zone2 = ZoneId.of("Brazil/East");
+        LocalDateTime timeBrazil = LocalDateTime.now(zone2);
+        LocalDateTime time = LocalDateTime.now();
+        
+        when(healthResultTimeDTO.getUpdatedTime()).thenReturn(timeBrazil);
+
+        HealthResult result = healthResultsListService.updateHealthResult(1, healthResultsListService.getResultById(2));
+        Assert.assertNotEquals(healthResultTimeDTO.getUpdatedTime(), time);
+    }
+    
+    @Test
+    public void getTimesByResultId() {
+        ZoneId zone2 = ZoneId.of("Brazil/East");
+        LocalDateTime timeBrazil = LocalDateTime.now(zone2);
+    	LocalDateTime time = LocalDateTime.now();
+    	
+    	HealthResultTimeDTO result = new HealthResultTimeDTO(time, timeBrazil, time);
+        when(healthResultsListServiceMock.getTimesById(1)).thenReturn(result);
+        Assert.assertNotNull(healthResultsListServiceMock.getTimesById(1));
+    }
+    
+	 
 }
